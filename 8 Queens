@@ -1,36 +1,41 @@
 #include <stdio.h>
-#include <math.h>
 
-int x[10];   // stores column positions
-int count = 0;
+#define V 4
+#define INF 99999   // Use a larger value to avoid issues
 
-// Check if queen can be placed
-int place(int k, int i) {
-    for (int j = 1; j < k; j++) {
-        if (x[j] == i || abs(x[j] - i) == abs(j - k))
-            return 0;
-    }
-    return 1;
-}
+int main() {
+    int dist[V][V] = {
+        {0, 5, INF, 10},
+        {INF, 0, 3, INF},
+        {INF, INF, 0, 1},
+        {INF, INF, INF, 0}
+    };
 
-// Backtracking function
-void nqueen(int k, int n) {
-    for (int i = 1; i <= n; i++) {
-        if (place(k, i)) {
-            x[k] = i;
-            if (k == n) {
-                count++;
-                printf("\nSolution %d:\n", count);
-                for (int j = 1; j <= n; j++)
-                    printf("(%d,%d) ", j, x[j]);
-            } else {
-                nqueen(k + 1, n);
+    // Floyd–Warshall Algorithm
+    for (int k = 0; k < V; k++) {
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                // Check to avoid overflow with INF
+                if (dist[i][k] != INF && dist[k][j] != INF &&
+                    dist[i][k] + dist[k][j] < dist[i][j]) {
+                    
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
             }
         }
     }
-}
 
-int main() {
-    nqueen(1, 8);
+    // Print result
+    printf("Shortest distance matrix:\n");
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            if (dist[i][j] == INF)
+                printf("INF ");
+            else
+                printf("%d ", dist[i][j]);
+        }
+        printf("\n");
+    }
+
     return 0;
 }
