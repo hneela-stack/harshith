@@ -1,0 +1,19 @@
+#include <stdio.h>
+int w[5]={1,2,3,4,5},x[5];
+void subset(int s,int k,int r){
+    x[k]=1;
+    if(s+w[k]==5){
+        for(int i=0;i<=k;i++)
+            if(x[i]) printf("%d ",w[i]);
+        printf("\n");
+    } else if(s+w[k]+w[k+1]<=5){
+        subset(s+w[k],k+1,r-w[k]);
+    }
+    if(s+r-w[k]>=5 && s+w[k+1]<=5){
+        x[k]=0;
+        subset(s,k+1,r-w[k]);
+    }
+}
+int main(){
+    subset(0,0,15);
+}
