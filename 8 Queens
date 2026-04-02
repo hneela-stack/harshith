@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <math.h>
+
+int x[10];   // stores column positions
+int count = 0;
+
+// Check if queen can be placed
+int place(int k, int i) {
+    for (int j = 1; j < k; j++) {
+        if (x[j] == i || abs(x[j] - i) == abs(j - k))
+            return 0;
+    }
+    return 1;
+}
+
+// Backtracking function
+void nqueen(int k, int n) {
+    for (int i = 1; i <= n; i++) {
+        if (place(k, i)) {
+            x[k] = i;
+            if (k == n) {
+                count++;
+                printf("\nSolution %d:\n", count);
+                for (int j = 1; j <= n; j++)
+                    printf("(%d,%d) ", j, x[j]);
+            } else {
+                nqueen(k + 1, n);
+            }
+        }
+    }
+}
+
+int main() {
+    nqueen(1, 8);
+    return 0;
+}
