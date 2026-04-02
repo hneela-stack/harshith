@@ -1,0 +1,17 @@
+#include <stdio.h>
+int main(){
+    int p[3]={60,100,120}, w[3]={10,20,30};
+    float ratio[3],total=0,cap=50;
+    for(int i=0;i<3;i++) ratio[i]=(float)p[i]/w[i];
+
+    for(int i=0;i<3;i++){
+        if(w[i]<=cap){
+            cap-=w[i];
+            total+=p[i];
+        } else {
+            total+=ratio[i]*cap;
+            break;
+        }
+    }
+    printf("Max Profit=%f",total);
+}
