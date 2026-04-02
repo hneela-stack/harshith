@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int binarySearch(int a[], int low, int high, int key) {
+    if (low > high)
+        return -1;
+
+    int mid = (low + high) / 2;
+
+    if (a[mid] == key)
+        return mid;
+    else if (key < a[mid])
+        return binarySearch(a, low, mid - 1, key);
+    else
+        return binarySearch(a, mid + 1, high, key);
+}
+
+int main() {
+    int a[5] = {10, 20, 30, 40, 50};
+    int result = binarySearch(a, 0, 4, 30);
+
+    if (result != -1)
+        printf("Found at index %d", result);
+    else
+        printf("Not Found");
+
+    return 0;
+}
